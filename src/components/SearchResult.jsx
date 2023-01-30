@@ -7,7 +7,7 @@ const SearchBar = ({ result }) => {
     };
 
     return (
-        <>
+        <div className="list">
             {result.map((e, i) => {
                 return (
                     <div key={i + 1} onClick={select(e.bookinfo_id)} className="book">
@@ -17,9 +17,17 @@ const SearchBar = ({ result }) => {
                 );
             })}
             <style jsx>{`
+                .list{
+                    max-height: calc(80vh - 200px);
+                    position: absolute;
+                    overflow-y: scroll;
+                    top: 18px;
+                    background-color: white;
+                    z-index:100;
+                }
                 .book{
                     border: 1px solid #000;
-                    margin: 5px;
+                    margin-bottom: 5px;
                     width: 200px;
                 }
                 .title{
@@ -29,7 +37,7 @@ const SearchBar = ({ result }) => {
                     margin-left: 5px;
                 }
             `}</style>
-        </>
+        </div>
     );
 };
 
