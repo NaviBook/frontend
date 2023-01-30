@@ -1,11 +1,10 @@
 import {useState,useEffect,useRef} from 'react';
-import { useRouter } from 'next/router';
+import SearchResult from './searchResult';[]
 import axios from 'axios';
 
 const SearchBar = () => {
     const inputRef = useRef(null);
     let [result, setResult] = useState([]);
-    const router = useRouter();
     const search = async (e) => {
         let value = e.target.value;
         if (value.length > 0) {
@@ -18,10 +17,6 @@ const SearchBar = () => {
         } else {
             setResult([]);
         }
-    };
-
-    const select = (id) => () => {
-        router.push(`/bookinfo/${id}`);
     };
     
     let [recommend, setRecommend] = useState([]);
@@ -54,26 +49,13 @@ const SearchBar = () => {
                     );
                 })}
             </div>
-            <div className="result">
-                {result.map((e,i) => {
-                    return (
-                    <div key={i+1} onClick={select(e.bookinfo_id)}>
-                        <div className='title'>{e.bookname}</div>
-                        <div className='writer'>{e.writer}</div>
-                    </div>
-                    );
-                })}
-            </div>
+            <SearchResult result={result}/>
             <style jsx>{`
                 .recommend>span{
                     margin: 5px;
                     color: skyblue;
                     cursor: pointer;
                     text-decoration: underline;
-                }
-                .result>div{
-                    border: 1px solid #000;
-                    margin: 5px;
                 }
 
             `}</style>
