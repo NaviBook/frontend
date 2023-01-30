@@ -6,8 +6,8 @@ const SearchBar = () => {
     const inputRef = useRef(null);
     let [result, setResult] = useState([]);
     const router = useRouter();
-    const search = async (e) => {
-        let value = e.target.value;
+    const search = async () => {
+        let value = inputRef.current.value;
         if (value.length > 0) {
             let result = [];
             let response = await axios.get(`/api/bookinfo/searchbookinfo`,{params:{bookname: value}});
@@ -38,13 +38,15 @@ const SearchBar = () => {
 
     const clickRecommend = (bookname) => () => {
         inputRef.current.value = bookname;
-        search({target: inputRef.current});
+        search();
     };
 
     return (
         <>
-            <input type="text" placeholder="Search" onChange={search} ref={inputRef}/>
-            <button>Search</button>
+            <div className="search">
+                <input type="text" placeholder="Search" onChange={search} ref={inputRef}/>
+                <button>Search</button>
+            </div>
             <div className="recommend">
                 {recommend.map((e,i) => {
                     return (
@@ -65,6 +67,10 @@ const SearchBar = () => {
                 })}
             </div>
             <style jsx>{`
+                .search {
+                    background-color: blue;
+
+                }
                 .recommend>span{
                     margin: 5px;
                     color: skyblue;
