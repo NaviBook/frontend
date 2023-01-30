@@ -1,9 +1,7 @@
 import { useRouter } from 'next/router';
 
 const SearchBar = ({ result }) => {
-
     const router = useRouter();
-
     const select = (id) => () => {
         router.push(`/bookinfo/${id}`);
     };
@@ -22,9 +20,13 @@ const SearchBar = ({ result }) => {
                 .book{
                     border: 1px solid #000;
                     margin: 5px;
+                    width: 200px;
                 }
                 .title{
                     font-weight: bold;
+                }
+                .title, .writer {
+                    margin-left: 5px;
                 }
             `}</style>
         </>

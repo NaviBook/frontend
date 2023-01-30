@@ -1,11 +1,10 @@
 import {useState,useEffect,useRef} from 'react';
-import SearchResult from './searchResult';[]
+import SearchResult from './searchResult';
 import axios from 'axios';
 
 const SearchBar = () => {
     const inputRef = useRef(null);
     let [result, setResult] = useState([]);
-    const router = useRouter();
     const search = async () => {
         let value = inputRef.current.value;
         if (value.length > 0) {
@@ -38,10 +37,10 @@ const SearchBar = () => {
     };
 
     return (
-        <>
+        <div className="container">
             <div className="search">
                 <input type="text" placeholder="Search" onChange={search} ref={inputRef}/>
-                <button>Search</button>
+                <button s><img src="/search.svg" /></button>
             </div>
             <div className="recommend">
                 {recommend.map((e,i) => {
@@ -53,10 +52,13 @@ const SearchBar = () => {
                 })}
             </div>
             <SearchResult result={result}/>
-            <style jsx>{`
-                .search {
-                    background-color: blue;
 
+            <style jsx>{`
+                .container {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
                 }
                 .recommend>span{
                     margin: 5px;
@@ -64,10 +66,32 @@ const SearchBar = () => {
                     cursor: pointer;
                     text-decoration: underline;
                 }
+                .search {
+                    display: flex;
+                    width: 200px;
+                    justify-content: space-between;
+                    align-items: center;
+                    border: 1px solid black;
+                    border-radius: 3px;
+                }
+                .search>button, img {
+                    display: flex;
+                    width: 20px;
+                    height: 20px;
+                    justify-content: center;
+                    align-items: center;
+                }
+                .search>input, button {
+                    border: none;
+                    background-color: white;
+                }
+                .search>input {
+                    width: 180px;
+                }
 
             `}</style>
-        </>
+        </ div>
     );
-};
+}
 
 export default SearchBar;

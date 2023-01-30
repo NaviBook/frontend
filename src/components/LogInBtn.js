@@ -12,7 +12,7 @@ export default function LogInBtn() {
             display: flex;
             flex-direction: row-reverse;
             align-items: center;
-            padding: 0px 50px;
+            padding: 0px 20px;
             }
             
             a {
