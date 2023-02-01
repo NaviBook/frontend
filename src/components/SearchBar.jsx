@@ -9,10 +9,11 @@ const SearchBar = () => {
         let value = inputRef.current.value;
         if (value.length > 0) {
             let result = [];
-            let response = await axios.get(`/api/bookinfo/searchbookinfo`,{params:{bookname: value}});
+            let response = await axios.get(`/api/bookinfo/${value}`);
             if (response.status === 200) {
                 result = response.data;
             }
+            console.log(result);
             setResult(result);
         } else {
             setResult([]);

@@ -10,8 +10,8 @@ const SearchBar = ({ result }) => {
         <div className="list">
             {result.map((e, i) => {
                 return (
-                    <div key={i + 1} onClick={select(e.bookinfo_id)} className="book">
-                        <div className='title'>{e.bookname}</div>
+                    <div key={i + 1} onClick={select(e.id)} className="book">
+                        <div className='title'>{e.bookName}</div>
                         <div className='writer'>{e.writer}</div>
                     </div>
                 );
