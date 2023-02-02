@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-const SearchBar = ({ result }) => {
+const SearchResult = ({ result }) => {
     const router = useRouter();
     const select = (id) => () => {
         router.push(`/bookinfo/${id}`);
@@ -41,4 +41,4 @@ const SearchBar = ({ result }) => {
     );
 };
 
-export default SearchBar;
+export default SearchResult;

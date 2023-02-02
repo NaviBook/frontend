@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function ManagerBtn() {
   return(
     <div className="container">
-        <Link href="/manager" legacyBehavior>
+        <Link href="/manage/" legacyBehavior>
             <a>관리자</a>
         </Link>
         <style jsx>{`
