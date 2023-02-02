@@ -1,5 +1,5 @@
 import {useState,useEffect,useRef} from 'react';
-import SearchResult from './searchResult';
+import SearchResult from './SearchResult';
 import axios from 'axios';
 
 const SearchBar = () => {
@@ -23,17 +23,16 @@ const SearchBar = () => {
     let [recommend, setRecommend] = useState([]);
     useEffect(() => {
         const getRecommend = async () => {
-            //let response = await axios.get(`/api/bookinfo/randombookinfo`,{params:{cnt: 4}});
-            let response = {status:200,data:["A2","A12","A20","3"]};
+            let response = await axios.get(`/api/bookinfo/random/4`);
             if (response.status === 200) {
-                setRecommend(response.data);
+                setRecommend(response.data.map(e=>e.bookName));
             }
         };
         getRecommend();
     },[]);
 
-    const clickRecommend = (bookname) => () => {
-        inputRef.current.value = bookname;
+    const clickRecommend = (bookName) => () => {
+        inputRef.current.value = bookName;
         search();
     };
 
@@ -41,7 +40,7 @@ const SearchBar = () => {
         <div className="container">
             <div className="search">
                 <input type="text" placeholder="Search" onChange={search} ref={inputRef}/>
-                <button s><img src="/search.svg" /></button>
+                <button><img src="/search.svg" /></button>
             </div>
             <div className="recommend">
                 {recommend.map((e,i) => {
