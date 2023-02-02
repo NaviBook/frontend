@@ -1,10 +1,10 @@
 import Link from "next/link";
 
-export default function LogInBtn() {
+export default function ManagerBtn() {
   return(
     <div className="container">
-        <Link href="/login" legacyBehavior>
-            <a>로그인</a>
+        <Link href="/manage/" legacyBehavior>
+            <a>관리자</a>
         </Link>
         <style jsx>{`
             .container {
@@ -12,7 +12,6 @@ export default function LogInBtn() {
             display: flex;
             flex-direction: row-reverse;
             align-items: center;
-            padding: 0px 20px 0px 10px;
             }
             
             a {

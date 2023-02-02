@@ -2,6 +2,6 @@
 
 export default function login() {
     return(
-        <div>짠</div>
+        <div>로그인</div>
     );
 }
