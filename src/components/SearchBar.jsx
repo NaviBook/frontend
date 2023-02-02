@@ -1,6 +1,6 @@
 import {useState,useEffect,useRef} from 'react';
 import SearchResult from './SearchResult';
-import axios from 'axios';
+import {getAPI, postAPI} from '@/utils/fetch';
 
 const SearchBar = () => {
     const inputRef = useRef(null);
@@ -9,7 +9,7 @@ const SearchBar = () => {
         let value = inputRef.current.value;
         if (value.length > 0) {
             let result = [];
-            let response = await axios.get(`/api/bookinfo/${value}`);
+            let response = await getAPI(`/api/bookinfo/${value}`);
             if (response.status === 200) {
                 result = response.data;
             }
@@ -23,7 +23,7 @@ const SearchBar = () => {
     let [recommend, setRecommend] = useState([]);
     useEffect(() => {
         const getRecommend = async () => {
-            let response = await axios.get(`/api/bookinfo/random/4`);
+            let response = await getAPI(`/api/bookinfo/random/4`);
             if (response.status === 200) {
                 setRecommend(response.data.map(e=>e.bookName));
             }
@@ -51,7 +51,7 @@ const SearchBar = () => {
                     );
                 })}
             </div>
-            <SearchResult result={result}/>
+            <SearchResult result={result} onClick={clickRecommend("")}/>
 
             <style jsx>{`
                 .container {

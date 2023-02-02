@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router';
 
-const SearchResult = ({ result }) => {
+const SearchResult = ({ result, onClick }) => {
     const router = useRouter();
     const select = (id) => () => {
+        onClick();
         router.push(`/bookinfo/${id}`);
     };
 
@@ -20,7 +21,7 @@ const SearchResult = ({ result }) => {
                 .list{
                     max-height: calc(80vh - 200px);
                     position: absolute;
-                    overflow-y: scroll;
+                    overflow-y: overlay;
                     top: 18px;
                     background-color: white;
                     z-index:100;
@@ -29,6 +30,7 @@ const SearchResult = ({ result }) => {
                     border: 1px solid #000;
                     margin-bottom: 5px;
                     width: 200px;
+                    cursor: pointer;
                 }
                 .title{
                     font-weight: bold;
