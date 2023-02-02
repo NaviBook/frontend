@@ -1,5 +1,5 @@
 import { useState} from 'react';
-import Map from './Map';
+import MapCanvas from './MapCanvas';
 
 export default function Mainmap({points,map,initfloor="1F"}) {
     const [floor, setFloor] = useState(initfloor);
@@ -18,11 +18,11 @@ export default function Mainmap({points,map,initfloor="1F"}) {
             <div className="floor">
                 {floors.map((e,i)=>{
                     return(
-                        <button key={i+1} onClick={selectFloor(e)}>{e}</button>
+                        <div key={i+1} onClick={selectFloor(e)} className={e==floor?"active":""}>{e}</div>
                     );
                 })}
             </div>
-            <Map points={points} map={map.filter(e=>e.libraryFloor === floor)}/>
+            <MapCanvas map={map.filter(e=>e.libraryFloor === floor)} points={points}/>
             <style jsx>{`
                 .container {
                     display: flex;
@@ -33,11 +33,21 @@ export default function Mainmap({points,map,initfloor="1F"}) {
                 .floor {
                     display: flex;
                     width: 200px;
-                    justify-content: space-evenly;
+                    justify-content: center;
+                    gap: 10px;
+                }
+                .floor>div{
+                    padding: 5px 10px;
+                    background-color: #ccc;
+                    font-weight: bold;
                 }
                 .map {
                     border: 1px solid black;
                     margin: 10px 0px;
+                }
+                .floor>div.active{
+                    background-color: skyblue;
+                    color: white;
                 }
             `}</style>
         </div>

@@ -51,7 +51,7 @@ const SearchBar = () => {
                     );
                 })}
             </div>
-            <SearchResult result={result}/>
+            <SearchResult result={result} onClick={clickRecommend("")}/>
 
             <style jsx>{`
                 .container {
