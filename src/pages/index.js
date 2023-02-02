@@ -1,8 +1,9 @@
 import LogInBtn from "@/components/LogInBtn";
 import SearchBar from "@/components/SearchBar";
 import Mainmap from "@/components/Mainmap";
+import {getAPI} from "@/utils/fetch";
 
-export default function Home() {
+export default function Home({map}) {
   return (
     <>
         <LogInBtn />
@@ -10,19 +11,22 @@ export default function Home() {
             <h1>NAVIBOOK</h1>
             <SearchBar />
         </div>
-        <div className="map">
-            <Mainmap />
-        </div>
+        <Mainmap map={map}/>
         <style jsx>{`
             h1 {
                 display: flex;
                 justify-content: center;
                 margin-bottom: 10px;
             }
-            .map {
-                padding-top: 50px;
-            }
         `}</style>
     </>
   );
 }
+
+export const getServerSideProps = async (context) => {
+    return {
+        props: {
+            map: await(await getAPI("http://localhost:3000/api/bookshelf")).data
+        },
+    };
+};

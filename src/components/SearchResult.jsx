@@ -20,7 +20,7 @@ const SearchBar = ({ result }) => {
                 .list{
                     max-height: calc(80vh - 200px);
                     position: absolute;
-                    overflow-y: scroll;
+                    overflow-y: overlay;
                     top: 18px;
                     background-color: white;
                     z-index:100;
@@ -29,6 +29,7 @@ const SearchBar = ({ result }) => {
                     border: 1px solid #000;
                     margin-bottom: 5px;
                     width: 200px;
+                    cursor: pointer;
                 }
                 .title{
                     font-weight: bold;

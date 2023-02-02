@@ -1,12 +1,28 @@
-export default function Mainmap() {
+import { useState} from 'react';
+import Map from './Map';
+
+export default function Mainmap({points,map,initfloor="1F"}) {
+    const [floor, setFloor] = useState(initfloor);
+    const floors = [];
+    map.forEach(e=>{
+        if(!floors.includes(e.libraryFloor))
+            floors.push(e.libraryFloor);
+    });
+
+    const selectFloor = (floor) => () => {
+        setFloor(floor);
+    };
+
     return(
         <div className="container">
             <div className="floor">
-                <button>1층</button>
-                <button>2층</button>
-                <button>3층</button>        
+                {floors.map((e,i)=>{
+                    return(
+                        <button key={i+1} onClick={selectFloor(e)}>{e}</button>
+                    );
+                })}
             </div>
-            <div className="map">대충 지도</div>
+            <Map points={points} map={map.filter(e=>e.libraryFloor === floor)}/>
             <style jsx>{`
                 .container {
                     display: flex;
@@ -20,11 +36,6 @@ export default function Mainmap() {
                     justify-content: space-evenly;
                 }
                 .map {
-                    display: flex;
-                    width: 200px;
-                    height: 150px;
-                    align-items: center;
-                    justify-content: center;
                     border: 1px solid black;
                     margin: 10px 0px;
                 }
