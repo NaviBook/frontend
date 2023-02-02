@@ -1,8 +1,10 @@
 import LogInBtn from "@/components/LogInBtn";
 import SearchBar from "@/components/SearchBar";
+import {getAPI} from "@/utils/fetch";
 import Link from "next/link";
+import MapContainer from "@/components/MapContainer";
 
-export default function Detail({id}) {
+export default function Detail({bookInfoId, map, points}) {
   return (
     <div>
         <LogInBtn />
@@ -12,7 +14,8 @@ export default function Detail({id}) {
             </Link>
         </div>
         <SearchBar/>
-        <h1>Detail {id}</h1>
+        <h1>Detail {bookInfoId}</h1>
+        <MapContainer map={map} points={points} initfloor={points[0].libraryFloor}/>
         <style jsx>{`
             .title {
                 display: flex;
@@ -34,7 +37,18 @@ export default function Detail({id}) {
 export const getServerSideProps = async (context) => {
     return {
         props: {
-            id: context.params.id,
-        },
+            bookInfoId: context.params.id,
+            map: await(await getAPI("http://localhost:3000/api/bookshelf")).data,
+            points: await(await getAPI("http://localhost:3000/api/book/"+context.params.id))
+                    .data
+                    .filter(e=>e.status)
+                    .map(e=>{
+                        return {
+                            bookShelfId:e.bookShelf.id,
+                            libraryFloor: e.bookShelf.libraryFloor,
+                            selfFloor:e.selfFloor
+                        }
+                    })
+        }
     };
 };

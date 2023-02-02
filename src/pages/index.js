@@ -1,6 +1,6 @@
 import LogInBtn from "@/components/LogInBtn";
 import SearchBar from "@/components/SearchBar";
-import Mainmap from "@/components/Mainmap";
+import Mainmap from "@/components/MapContainer";
 import {getAPI} from "@/utils/fetch";
 
 export default function Home({map}) {
