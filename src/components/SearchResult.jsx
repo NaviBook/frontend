@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router';
 
-const SearchResult = ({ result, onClick }) => {
+const SearchResult = ({ result, onClick, selectLink}) => {
     const router = useRouter();
     const select = (id) => () => {
         onClick();
-        router.push(`/bookinfo/${id}`);
+        
+        router.push(`${selectLink}/${id}`);
     };
 
     return (

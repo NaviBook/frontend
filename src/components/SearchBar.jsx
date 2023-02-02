@@ -2,7 +2,7 @@ import {useState,useEffect,useRef} from 'react';
 import SearchResult from './SearchResult';
 import {getAPI, postAPI} from '@/utils/fetch';
 
-const SearchBar = () => {
+const SearchBar = ({selectLink="/bookinfo"}) => {
     const inputRef = useRef(null);
     let [result, setResult] = useState([]);
     const search = async () => {
@@ -51,7 +51,7 @@ const SearchBar = () => {
                     );
                 })}
             </div>
-            <SearchResult result={result} onClick={clickRecommend("")}/>
+            <SearchResult result={result} onClick={clickRecommend("")} selectLink={selectLink}/>
 
             <style jsx>{`
                 .container {
