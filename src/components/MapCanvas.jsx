@@ -17,17 +17,21 @@ export default function Map({points=null,map}) {
         ctx.fillStyle = "#888";
         map.forEach(e=>{
             if(points?.map(e=>e.bookShelfId).includes(e.id)) {
-                ctx.fillStyle = "#f00";
+                ctx.fillStyle = "#5588ff";
                 ctx.fillRect(e.positionX*px, e.positionY*py, e.width*px, e.height*py);
                 ctx.fillStyle = "#fff";
                 let fontSize = e.width*px/2;
                 ctx.font = `${fontSize}px Noto Sans`;
-                ctx.fillText(e.shelfFloor+"층", (e.positionX+1)*px, e.positionY*py+10+fontSize);
-                ctx.fillText("n권", (e.positionX+1)*px, e.positionY*py+10+fontSize*2);
+                ctx.textAlign = "center";
+                ctx.textBaseline = "top";
+                ctx.fillText(e.shelfFloor+"층", (e.positionX+e.width/2)*px, e.positionY*py+10);
+                ctx.fillText("n권", (e.positionX+e.width/2)*px, e.positionY*py+15+fontSize);
             } else {
-                ctx.fillStyle = "#888";
+                ctx.fillStyle = "#ccc";
                 ctx.fillRect(e.positionX*px, e.positionY*py, e.width*px, e.height*py);
             }
+            ctx.fillStyle = "#000";
+            ctx.strokeRect(e.positionX*px, e.positionY*py, e.width*px, e.height*py);
         });
     }
     useEffect(() => {

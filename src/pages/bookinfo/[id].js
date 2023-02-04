@@ -3,8 +3,9 @@ import SearchBar from "@/components/SearchBar";
 import {getAPI} from "@/utils/fetch";
 import Link from "next/link";
 import MapContainer from "@/components/MapContainer";
+import BookInfo from "@/components/BookInfo";
 
-export default function Detail({bookInfoId, map, points}) {
+export default function Detail({bookInfo, map, points}) {
   return (
     <div>
         <LogInBtn />
@@ -14,7 +15,7 @@ export default function Detail({bookInfoId, map, points}) {
             </Link>
         </div>
         <SearchBar/>
-        <h1>Detail {bookInfoId}</h1>
+        <BookInfo book={bookInfo}></BookInfo>
         <MapContainer map={map} points={points} initfloor={points[0].libraryFloor}/>
         <style jsx>{`
             .title {
@@ -35,12 +36,12 @@ export default function Detail({bookInfoId, map, points}) {
 }
 
 export const getServerSideProps = async (context) => {
+    let bookInfo = await(await getAPI("http://localhost:3000/api/book/"+context.params.id)).data;
     return {
         props: {
-            bookInfoId: context.params.id,
+            bookInfo: bookInfo[0].bookInfo,
             map: await(await getAPI("http://localhost:3000/api/bookshelf")).data,
-            points: await(await getAPI("http://localhost:3000/api/book/"+context.params.id))
-                    .data
+            points: bookInfo
                     .filter(e=>e.status)
                     .map(e=>{
                         return {
