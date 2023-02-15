@@ -34,7 +34,7 @@ export default function Home({map}) {
 export const getServerSideProps = async (context) => {
     return {
         props: {
-            map: await(await getAPI("http://localhost:3000/api/bookshelf")).data
+            map: await(await getAPI("http://15.165.230.7:8080/api/bookshelf")).data
         },
     };
 };

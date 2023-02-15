@@ -34,11 +34,10 @@ function bookManage({bookInfo, result}) {
     
     return (
         <div>
-            <button onClick={clickSave}>test</button>
             <h1>도서 관리하기</h1>
             <div>
                 <h3>step1.</h3>
-                <button onClick={showModal} >도서 선택</button>
+                <button onClick={showModal} >도서 선택 완료</button>
                 {modalOpen && <Modal setModalOpen={setModalOpen} />}
                 <div>
                     <div className="book">
