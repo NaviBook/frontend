@@ -4,11 +4,11 @@ import { getAPI, postAPI } from '@/utils/fetch';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
-function bookManage({bookInfo, result}) {
+function bookManage({bookInfo, result}) {  
     const inputRef = useRef();
     const [id, setId] = useState([]);
     const router = useRouter();
-
+    
     const handleInput = async () => {
         await setId(e=>[...e,inputRef.current.value]);
         inputRef.current.value = "";
@@ -18,17 +18,17 @@ function bookManage({bookInfo, result}) {
     const showModal = () => {
         setModalOpen(true);
     };
-
+    
     const clickSave = () => {
         id.map(e => {
-            axios.post("http://localhost:3000/api/book/add", {
+            axios.post("http://15.165.230.7:8080/api/book/add", {
                 bookId: Number(e),
                 bookInfoId: Number(bookInfo)
             }).then(response => {
                 console.log(response.data);
             }); 
         })
-
+        
         router.push("/manage/bookManage");
     }
     
@@ -65,7 +65,7 @@ function bookManage({bookInfo, result}) {
             </div>
         </div>
     );
-}
+};
 
 export default bookManage;
 
@@ -73,7 +73,7 @@ export const getServerSideProps = async (context) => {
     return {
         props: {
             bookInfo: context.params.id,
-            result: await(await getAPI("http://localhost:3000/api/book/"+context.params.id))
+            result: await(await getAPI("http://15.165.230.7:8080/api/book/"+context.params.id))
             .data
             [0].bookInfo,
         },
