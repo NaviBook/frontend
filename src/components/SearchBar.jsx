@@ -2,14 +2,14 @@ import {useState,useEffect,useRef} from 'react';
 import SearchResult from './SearchResult';
 import {getAPI, postAPI} from '@/utils/fetch';
 
-const SearchBar = ({selectLink="/bookinfo"}) => {
+const SearchBar = ({selectLink="/bookinfo", response}) => {
     const inputRef = useRef(null);
     let [result, setResult] = useState([]);
     const search = async () => {
         let value = inputRef.current.value;
         if (value.length > 0) {
             let result = [];
-            let response = await getAPI(`http://15.165.230.7:8080/api/bookinfo/${value}`);
+            let response = await getAPI(`/api/bookinfo/${value}`);
             if (response.status === 200) {
                 result = response.data;
             }
@@ -22,7 +22,8 @@ const SearchBar = ({selectLink="/bookinfo"}) => {
     let [recommend, setRecommend] = useState([]);
     useEffect(() => {
         const getRecommend = async () => {
-            let response = await getAPI(`http://15.165.230.7:8080/api/bookinfo/random/4`);
+            let response = await getAPI(`/api/bookinfo/random/4`);
+            
             if (response.status === 200) {
                 setRecommend(response.data.map(e=>e.bookName));
             }

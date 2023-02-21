@@ -11,8 +11,8 @@ export default function manager() {
     ]
 
     const urlInfo = [
-        ["/manage/bookManage", "/manage/bookShelf"],
-        ["/manage/check/out", "/manage/check/in"],
+        ["/manage/book", "/manage/bookShelf"],
+        ["/manage/checkIn", "/manage/checkOut"],
         ["manage/record"]
     ]
     
