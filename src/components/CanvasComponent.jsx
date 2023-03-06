@@ -48,7 +48,7 @@ function CanvasComponent({ bookshelf, library }) {
             shelfGroup.add(new Konva.Text({
                 text: item.id,
                 fontSize: 20,
-                fontFamily: 'Calibri',
+                fontFamily: 'Noto Sans KR',
                 fill: 'black',
             }));
             positionX+=item.width+4;
@@ -62,16 +62,6 @@ function CanvasComponent({ bookshelf, library }) {
         itemLayer.on('click', (e) => {
             console.log(e.target.parent);
         });
-
-        // box.on('click', (e) => {
-        //     console.log(e);
-        //     // box.remove();
-        //     // layer.draw();
-        //     // mapLayer.add(box);
-        // });
-
-
-
         
         document.getElementsByTagName('html')[0].style.width = '100%';
         document.getElementsByTagName('body')[0].style.maxWidth = "none";
@@ -87,16 +77,14 @@ function CanvasComponent({ bookshelf, library }) {
 
     return (
         <div>
-            <h2>Item Canvas</h2>
-            <div
-                style={{ width: '100%', height: '200px' }}
-                ref={itemRef}
-            />
-            <h2>Map Canvas</h2>
-            <div
-                style={{ width: '100%', height: '400px' }}
-                ref={mapRef}
-            />
+            
+            <div ref={itemRef} className="item">
+
+            </div>
+            <div ref={mapRef} className="map"/>
+            <style jsx>{`
+
+            `}</style>
         </div>
     );
 }
