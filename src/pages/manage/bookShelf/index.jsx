@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import CanvasComponent from '@/components/CanvasComponent';
+import Konva from 'konva';
 import { getAPI } from '@/utils/fetch';
 
-function NumberInput({ text, unit, value, onChange }) {
+function NumberInput({ text, unit, value, onChange, step }) {
     return (
         <div>
             <label>{text}</label>
-            <button onClick={() => onChange(value - 1)}>-</button>
+            <button onClick={() => onChange(value - step)}>-</button>
             <div className="container">
                 <input type="number" value={value} onChange={(e) => onChange(Number(e.target.value))} />
                 <span>{unit}</span>
             </div>
-            <button onClick={() => onChange(value + 1)}>+</button>
+            <button onClick={() => onChange(value + step)}>+</button>
             <style jsx>{`
                 div {
                     display: flex;
@@ -110,11 +110,39 @@ const Button = ({ text, onClick, fontSize,background="#294356", className }) => 
     );
 };
 
+const Item = ({index,unregistered}) => {
+    let {shelfFloor,width, height} = unregistered[index];
+    return (
+        <div draggable="true" index={index}>
+            {shelfFloor}
+            <style jsx>{`
+                div {
+                    width: ${width*800/120}px;
+                    height: ${height*600/90}px;
+                    background-color: #294356;
+                    color: #ffffff;
+                    font-size: 20px;
+                    font-weight: 700;
+                    font-family: 'Noto Sans KR';
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin: 5px;
+                    cursor: pointer;
+                    user-select:none;
+                }
+            `}</style>
+        </div>
+    );
+}
+
 const bookShelf = ({ bookshelfs }) => {
-    const [width, setWidth] = useState(1);
-    const [height, setHeight] = useState(1);
+    const [width, setWidth] = useState(10);
+    const [height, setHeight] = useState(10);
     const [floor, setFloor] = useState(1);
     const [selectedFloor, setSelectedFloor] = useState("1F");
+    const [unregistered, setUnregistered] = useState([]);
+    const [registered, setRegistered] = useState(bookshelfs);
 
     const itemsRef = useRef(null);
     const mapRef = useRef(null);
@@ -135,8 +163,6 @@ const bookShelf = ({ bookshelfs }) => {
         setSelectedFloor(floor);
     };
 
-    console.log(selectedFloor);
-
     useEffect(() => {
         document.getElementsByTagName('html')[0].style.width = '100%';
         document.getElementsByTagName('body')[0].style.maxWidth = "none";
@@ -147,16 +173,148 @@ const bookShelf = ({ bookshelfs }) => {
         }
     }, []);
     
+    useEffect(() => {
+        const stage = new Konva.Stage({
+            container: mapRef.current,
+            width: 800,
+            height: 600,
+        });
+
+        const layer = new Konva.Layer();
+        stage.add(layer);
+
+        let curDragItemIndex = -1;
+        const dragStartFunc = (e) => {
+            curDragItemIndex = Number(e.target.getAttribute('index'));
+        }
+        itemsRef.current.addEventListener('dragstart', dragStartFunc);
+
+        let con = stage.container();
+        const dragOverFunc = (e) => {
+            e.preventDefault();
+        }
+        con.addEventListener('dragover', dragOverFunc);
+
+        const dropFunc = (e) => {
+            e.preventDefault();
+            console.log(e.offsetX, e.offsetY);
+            setRegistered([...registered, {
+                shelfFloor: unregistered[curDragItemIndex].shelfFloor,
+                width: unregistered[curDragItemIndex].width,
+                height: unregistered[curDragItemIndex].height,
+                positionX:e.offsetX*120/800,
+                positionY:e.offsetY*90/600,
+                libraryFloor:selectedFloor}]);
+            setUnregistered(unregistered.filter((e, i) => i !== curDragItemIndex));
+            console.log(registered);
+        }
+        con.addEventListener('drop', dropFunc);
+
+        registered.forEach((e,i) => {
+            if(e.libraryFloor !== selectedFloor)
+                return;
+            
+            let shelfGroup = new Konva.Group({
+                x: e.positionX*800/120,
+                y: e.positionY*600/90,
+                draggable: true,
+                width: e.width*800/120,
+                height: e.height*600/90,
+                index: i
+            });
+            
+            shelfGroup.add(new Konva.Rect({
+                width: e.width*800/120,
+                height: e.height*600/90,
+                fill: '#AD7D5A',
+            }));
+
+            shelfGroup.add(new Konva.Text({
+                text: e.shelfFloor,
+                fontSize: 20,
+                fontFamily: 'Noto Sans KR',
+                fill: 'white',
+                x: e.width*800/120/2 - 10,
+                y: e.height*600/90/2 - 10,
+            }));
+
+            shelfGroup.add(new Konva.Text({
+                text: "X",
+                fontSize: 15,
+                fontFamily: 'Noto Sans KR',
+                fill: 'black',
+                x: e.width*800/120 - 10,
+                y: -10,
+                width: 20,
+                height: 20,
+                align: 'center',
+                verticalAlign: 'middle',
+                background: 'white',
+                cornerRadius: 2,
+                padding: 2
+            }));
+            
+            shelfGroup.children[2].on('click', function (e) {
+                setUnregistered([...unregistered, {
+                    shelfFloor: registered[i].shelfFloor,
+                    width: registered[i].width,
+                    height: registered[i].height,
+                    positionX:null,positionY:null,libraryFloor:null
+                }]);
+                setRegistered(registered.filter((e, j) => j !== i));
+            });
+
+            layer.add(shelfGroup);
+        });
+
+        console.log(layer.children);
+
+        layer.on('dragend', function (e) {
+            let index = e.target.attrs.index;
+            let x = e.target.attrs.x;
+            let y = e.target.attrs.y;
+            setRegistered(registered.map((e, i) => {
+                if (i === index) {
+                    return {
+                        shelfFloor: e.shelfFloor,
+                        width: e.width,
+                        height: e.height,
+                        positionX: x*120/800,
+                        positionY: y*90/600,
+                        libraryFloor:selectedFloor
+                    }
+                }
+                return e;
+            }));
+        });
+
+        return () => {
+            itemsRef.current.removeEventListener('dragstart', dragStartFunc);
+            con.removeEventListener('dragover', dragOverFunc);
+            con.removeEventListener('drop', dropFunc);
+        }
+    }, [unregistered, registered]);
+    
+
+    const addUnregistered = () => {
+        setUnregistered([...unregistered, {shelfFloor: floor, width: width, height: height,positionX:null,positionY:null,libraryFloor:null}]);
+    };
+    
     return (
         <div>
             <h1>책장 관리하기</h1>
             <div className="container">
                 <div className="left">
-                    <NumberInput text="가로" unit="칸" value={width} onChange={setWidth} />
-                    <NumberInput text="세로" unit="칸" value={height} onChange={setHeight} />
-                    <NumberInput text="높이" unit="층" value={floor} onChange={setFloor} />
-                    <Button className="add"  text="추가하기" onClick={e=>{}} fontSize="40"></Button>
+                    <NumberInput text="가로" unit="칸" value={width} onChange={setWidth} step={5}/>
+                    <NumberInput text="세로" unit="칸" value={height} onChange={setHeight} step={5}/>
+                    <NumberInput text="높이" unit="층" value={floor} onChange={setFloor} step={1}/>
+                    <Button className="add"  text="추가하기" onClick={addUnregistered} fontSize="40"></Button>
                     <div ref={itemsRef} className="items">
+                        {unregistered.map((e, i) => {
+                            return (
+                                <Item key={i} index={i} unregistered={unregistered}/>
+                            );
+                        })}
                     </div>
                 </div>
                 <div className="right">
@@ -238,7 +396,8 @@ export default bookShelf;
 export const getServerSideProps = async (context) => {
     return {
         props: {
-            bookshelfs: await (await getAPI("http://15.165.230.7:8080/api/bookshelf")).data
+            bookshelfs: //await (await getAPI("http://15.165.230.7:8080/api/bookshelf")).data
+            [{"id":1,"shelfFloor":5,"positionX":10,"positionY":10,"width":10,"height":20,"libraryFloor":"1F"},{"id":2,"shelfFloor":3,"positionX":50,"positionY":10,"width":10,"height":20,"libraryFloor":"1F"},{"id":3,"shelfFloor":4,"positionX":90,"positionY":10,"width":10,"height":20,"libraryFloor":"1F"}]
         },
     };
 };
