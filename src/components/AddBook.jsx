@@ -10,14 +10,14 @@ export default function AddBook() {
     });
 
     const handleInput = async () => {
-        setValue({name: nameRef.current.value,writer: writerRef.current.value});
+        setValue({name: nameRef.current.value, writer: writerRef.current.value});
 
         nameRef.current.value = "";
         writerRef.current.value = "";
     }
 
     const saveHandler = () => {
-        axios.post("http://15.165.230.7:8080/api/bookinfo/add", {
+        axios.post("/api/bookinfo/add", {
             bookName: value.name,
             writer: value.writer
         }).then(response => {

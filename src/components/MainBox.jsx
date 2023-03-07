@@ -5,7 +5,7 @@ const MainBox = ({title, subtitle, url}) => {
     return(
         <div className="container">
             <h1 className="title">{title}</h1>
-            <div>
+            <div className="subtitle">
                 <Link href={`${url[0]}`} legacyBehavior>{subtitle[0]}</Link>
                 <Link href={`${url[1]}`}>{subtitle[1]}</Link>
             </div>

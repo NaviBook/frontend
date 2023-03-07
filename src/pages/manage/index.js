@@ -23,6 +23,7 @@ export default function manager() {
                 <MainBox title={"도서관 관리하기"} subtitle={menuInfo[0]} url={urlInfo[0]} />
                 <MainBox title={"대출/반납하기"} subtitle={menuInfo[1]} url={urlInfo[1]} />
                 <MainBox title={"목록 조회하기"} subtitle={menuInfo[2]} url={urlInfo[2]} />
+                <Link href="/manage/pagetest">test</Link>
             </div>
             <style jsx>{`
                 .menu {

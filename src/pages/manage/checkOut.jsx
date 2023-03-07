@@ -36,7 +36,7 @@ export default function checkOut() {
     const checkIn = async() => {
         console.log(book);
         book.map(e => {
-            axios.post("/api/book/borrow", {
+            axios.post("/api/book/return", {
                 userId: id,
                 bookId: e.id
             }).then(response => {
