@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Konva from 'konva';
-import { getAPI } from '@/utils/fetch';
+import { getAPI, postAPI } from '@/utils/fetch';
 
 function NumberInput({ text, unit, value, onChange, step }) {
     return (
@@ -63,7 +63,7 @@ function NumberInput({ text, unit, value, onChange, step }) {
     );
 }
 
-const Button = ({ text, onClick, fontSize,background="#294356", className }) => {
+const Button = ({ text, onClick, fontSize, background = "#294356", className }) => {
     return (
         <button onClick={onClick} className={className}>
             {text}
@@ -96,8 +96,8 @@ const Button = ({ text, onClick, fontSize,background="#294356", className }) => 
                     word-break: keep-all;
                     background: #000000;
                     color: #000;
-                    top: ${fontSize/8}px;
-                    left: ${fontSize/8}px;
+                    top: ${fontSize / 8}px;
+                    left: ${fontSize / 8}px;
                 }
                 .active {
                     background-color: #f10000;
@@ -110,15 +110,15 @@ const Button = ({ text, onClick, fontSize,background="#294356", className }) => 
     );
 };
 
-const Item = ({index,unregistered}) => {
-    let {shelfFloor,width, height} = unregistered[index];
+const Item = ({ index, unregistered }) => {
+    let { shelfFloor, width, height } = unregistered[index];
     return (
         <div draggable="true" index={index}>
             {shelfFloor}
             <style jsx>{`
                 div {
-                    width: ${width*800/120}px;
-                    height: ${height*600/90}px;
+                    width: ${width * 800 / 120}px;
+                    height: ${height * 600 / 90}px;
                     background-color: #294356;
                     color: #ffffff;
                     font-size: 20px;
@@ -156,7 +156,7 @@ const bookShelf = ({ bookshelfs }) => {
     const [curFloors, setCurFloors] = useState(floors);
 
     const addCurFloor = () => {
-            setCurFloors([...curFloors, Number(curFloors[curFloors.length - 1].replace("F", ""))+1+"F"]);
+        setCurFloors([...curFloors, Number(curFloors[curFloors.length - 1].replace("F", "")) + 1 + "F"]);
     };
 
     const selectFloor = (floor) => () => {
@@ -172,7 +172,7 @@ const bookShelf = ({ bookshelfs }) => {
             document.getElementsByTagName('body')[0].style.maxWidth = "520px";
         }
     }, []);
-    
+
     useEffect(() => {
         const stage = new Konva.Stage({
             container: mapRef.current,
@@ -197,35 +197,34 @@ const bookShelf = ({ bookshelfs }) => {
 
         const dropFunc = (e) => {
             e.preventDefault();
-            console.log(e.offsetX, e.offsetY);
             setRegistered([...registered, {
                 shelfFloor: unregistered[curDragItemIndex].shelfFloor,
                 width: unregistered[curDragItemIndex].width,
                 height: unregistered[curDragItemIndex].height,
-                positionX:e.offsetX*120/800,
-                positionY:e.offsetY*90/600,
-                libraryFloor:selectedFloor}]);
+                positionX: Math.round(e.offsetX * 120 / 800 / 5) * 5,
+                positionY: Math.round(e.offsetY * 90 / 600 / 5) * 5,
+                libraryFloor: selectedFloor
+            }]);
             setUnregistered(unregistered.filter((e, i) => i !== curDragItemIndex));
-            console.log(registered);
         }
         con.addEventListener('drop', dropFunc);
 
-        registered.forEach((e,i) => {
-            if(e.libraryFloor !== selectedFloor)
+        registered.forEach((e, i) => {
+            if (e.libraryFloor !== selectedFloor)
                 return;
-            
+
             let shelfGroup = new Konva.Group({
-                x: e.positionX*800/120,
-                y: e.positionY*600/90,
+                x: e.positionX * 800 / 120,
+                y: e.positionY * 600 / 90,
                 draggable: true,
-                width: e.width*800/120,
-                height: e.height*600/90,
+                width: e.width * 800 / 120,
+                height: e.height * 600 / 90,
                 index: i
             });
-            
+
             shelfGroup.add(new Konva.Rect({
-                width: e.width*800/120,
-                height: e.height*600/90,
+                width: e.width * 800 / 120,
+                height: e.height * 600 / 90,
                 fill: '#AD7D5A',
             }));
 
@@ -234,8 +233,8 @@ const bookShelf = ({ bookshelfs }) => {
                 fontSize: 20,
                 fontFamily: 'Noto Sans KR',
                 fill: 'white',
-                x: e.width*800/120/2 - 10,
-                y: e.height*600/90/2 - 10,
+                x: e.width * 800 / 120 / 2 - 10,
+                y: e.height * 600 / 90 / 2 - 10,
             }));
 
             shelfGroup.add(new Konva.Text({
@@ -243,7 +242,7 @@ const bookShelf = ({ bookshelfs }) => {
                 fontSize: 15,
                 fontFamily: 'Noto Sans KR',
                 fill: 'black',
-                x: e.width*800/120 - 10,
+                x: e.width * 800 / 120 - 10,
                 y: -10,
                 width: 20,
                 height: 20,
@@ -253,21 +252,19 @@ const bookShelf = ({ bookshelfs }) => {
                 cornerRadius: 2,
                 padding: 2
             }));
-            
+
             shelfGroup.children[2].on('click', function (e) {
                 setUnregistered([...unregistered, {
                     shelfFloor: registered[i].shelfFloor,
                     width: registered[i].width,
                     height: registered[i].height,
-                    positionX:null,positionY:null,libraryFloor:null
+                    positionX: null, positionY: null, libraryFloor: null
                 }]);
                 setRegistered(registered.filter((e, j) => j !== i));
             });
 
             layer.add(shelfGroup);
         });
-
-        console.log(layer.children);
 
         layer.on('dragend', function (e) {
             let index = e.target.attrs.index;
@@ -276,12 +273,10 @@ const bookShelf = ({ bookshelfs }) => {
             setRegistered(registered.map((e, i) => {
                 if (i === index) {
                     return {
-                        shelfFloor: e.shelfFloor,
-                        width: e.width,
-                        height: e.height,
-                        positionX: x*120/800,
-                        positionY: y*90/600,
-                        libraryFloor:selectedFloor
+                        ...e,
+                        positionX: Math.round(x * 120 / 800 / 5) * 5,
+                        positionY: Math.round(y * 90 / 600 / 5) * 5,
+                        libraryFloor: selectedFloor
                     }
                 }
                 return e;
@@ -293,26 +288,44 @@ const bookShelf = ({ bookshelfs }) => {
             con.removeEventListener('dragover', dragOverFunc);
             con.removeEventListener('drop', dropFunc);
         }
-    }, [unregistered, registered]);
-    
+    }, [unregistered, registered, selectedFloor]);
+
 
     const addUnregistered = () => {
-        setUnregistered([...unregistered, {shelfFloor: floor, width: width, height: height,positionX:null,positionY:null,libraryFloor:null}]);
+        setUnregistered([...unregistered, { shelfFloor: floor, width: width, height: height, positionX: null, positionY: null, libraryFloor: null }]);
     };
-    
+
+    const save = async () => {
+        if (unregistered.length !== 0) {
+            alert("모든 책장을 책장에 추가해주세요.");
+            return;
+        }
+        let result = await Promise.all(registered.map(async (e) => {
+            if (e.id === undefined) {
+                let result = await postAPI('/api/bookshelf/add', e);
+                return { ...e, id: result.data.id };
+            }
+            let result = await postAPI('/api/bookshelf/edit', e);
+            return { ...e, id: result.data.id };
+        }));
+        console.log(result);
+        setRegistered(result);
+        alert("저장되었습니다.");
+    };
+
     return (
         <div>
             <h1>책장 관리하기</h1>
             <div className="container">
                 <div className="left">
-                    <NumberInput text="가로" unit="칸" value={width} onChange={setWidth} step={5}/>
-                    <NumberInput text="세로" unit="칸" value={height} onChange={setHeight} step={5}/>
-                    <NumberInput text="높이" unit="층" value={floor} onChange={setFloor} step={1}/>
-                    <Button className="add"  text="추가하기" onClick={addUnregistered} fontSize="40"></Button>
+                    <NumberInput text="가로" unit="칸" value={width} onChange={setWidth} step={5} />
+                    <NumberInput text="세로" unit="칸" value={height} onChange={setHeight} step={5} />
+                    <NumberInput text="높이" unit="층" value={floor} onChange={setFloor} step={1} />
+                    <Button className="add" text="추가하기" onClick={addUnregistered} fontSize="40"></Button>
                     <div ref={itemsRef} className="items">
                         {unregistered.map((e, i) => {
                             return (
-                                <Item key={i} index={i} unregistered={unregistered}/>
+                                <Item key={i} index={i} unregistered={unregistered} />
                             );
                         })}
                     </div>
@@ -322,18 +335,18 @@ const bookShelf = ({ bookshelfs }) => {
                         <div className="floor">
                             {curFloors.map((e, i) => {
                                 return (
-                                    <Button key={i + 1} text={e.replace("F","층")} onClick={selectFloor(e)} className={e == selectedFloor ? "active" : ""} fontSize="20"></Button>
+                                    <Button key={i + 1} text={e.replace("F", "층")} onClick={selectFloor(e)} className={e == selectedFloor ? "active" : ""} fontSize="20"></Button>
                                 );
                             }
                             )}
                             <Button text="+" onClick={addCurFloor} fontSize="20"></Button>
                         </div>
                         <div className="Menu">
-                            <Button text="초기화" onClick={e=>{}} fontSize="20"></Button>
-                            <Button text="저장" onClick={e=>{}} fontSize="20" background="#f10000"></Button>
+                            <Button text="초기화" onClick={e => { document.location.href = "/manage/bookShelf" }} fontSize="20"></Button>
+                            <Button text="저장" onClick={save} fontSize="20" background="#f10000"></Button>
                         </div>
                     </div>
-                    <div ref={mapRef} className="map"/>
+                    <div ref={mapRef} className="map" />
                 </div>
             </div>
             <style jsx>{`
@@ -396,8 +409,7 @@ export default bookShelf;
 export const getServerSideProps = async (context) => {
     return {
         props: {
-            bookshelfs: //await (await getAPI("http://15.165.230.7:8080/api/bookshelf")).data
-            [{"id":1,"shelfFloor":5,"positionX":10,"positionY":10,"width":10,"height":20,"libraryFloor":"1F"},{"id":2,"shelfFloor":3,"positionX":50,"positionY":10,"width":10,"height":20,"libraryFloor":"1F"},{"id":3,"shelfFloor":4,"positionX":90,"positionY":10,"width":10,"height":20,"libraryFloor":"1F"}]
+            bookshelfs: await (await getAPI("http://localhost:3000/api/bookshelf")).data
         },
     };
 };
