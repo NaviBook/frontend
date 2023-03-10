@@ -1,27 +1,38 @@
-import RedTitle from "@/components/RedTitle";
-import PaginateBtn from "@/components/paginateBtn";
-import LogList from "@/components/LogList";
-import { useState, useEffect } from "react";
+import Pagination from "@/components/Pagination";
+import { useEffect, useState } from "react";
 import { getAPI } from "@/utils/fetch";
-export default function record() {
-    const [logs, setLogs] = useState();
-    const log = [];
-    const [curPage, setCurPage] = useState(1);
+
+function pagetest() {
+    const [content, setContent] = useState([]);
+    const limit = 10;
+    const [page, setPage] = useState(1);
+    const offset = (page - 1) * limit;
+
+
+    async function handleLog() {
+        const result = await(await getAPI("/api/record?orderBy=book")).data;
+        setContent(result.recordDto.map(e=>e));
+        console.log(result);
+    }
 
     useEffect(() => {
-        const getLogs = async () => {
-            const result = await(await getAPI("/api/record?page=" + curPage + "&orderBy=book")).data;
-            setLogs(result.recordDto.map(e=>e));
-        };
-        getLogs();
-    }, []);
-    
-    return(
-        <div>
-            <RedTitle title={"대출/반납 이력 조회"}/>
+        handleLog();
+    },[])
 
-            <LogList result={logs}/>
-            <PaginateBtn />
-        </div>
+    return(
+        <>
+            {content.slice(offset, offset + limit).map(({ id, book, user, takeDate, giveDate }) => (
+                <article key={id}>
+                    <p> {book.bookInfo.bookName} {user.name} {takeDate} {giveDate} </p>
+                </article>
+            ))}
+            <Pagination 
+                total={content.length}
+                limit={limit}
+                page={page}
+                setPage={setPage} />
+        </>
     );
 }
+
+export default pagetest;
