@@ -64,7 +64,7 @@ const SearchBar = ({selectLink="/bookinfo", response}) => {
                 }
                 .recommend>span{
                     margin: 5px;
-                    color: skyblue;
+                    color: #2F4858;
                     cursor: pointer;
                     text-decoration: underline;
                 }
@@ -73,8 +73,8 @@ const SearchBar = ({selectLink="/bookinfo", response}) => {
                     width: 200px;
                     justify-content: space-between;
                     align-items: center;
-                    border: 1px solid black;
-                    border-radius: 3px;
+                    border: 2px solid #2F4858;
+                    margin-bottom: 5px;
                 }
                 .search>button, img {
                     display: flex;

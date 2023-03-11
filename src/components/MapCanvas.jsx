@@ -17,7 +17,7 @@ export default function Map({points=null,map}) {
         ctx.fillStyle = "#888";
         map.forEach(e=>{
             if(points?.map(e=>e.bookShelfId).includes(e.id)) {
-                ctx.fillStyle = "#f00";
+                ctx.fillStyle = "#AD7D5A";
                 ctx.fillRect(e.positionX*px, e.positionY*py, e.width*px, e.height*py);
                 ctx.fillStyle = "#fff";
                 let fontSize = e.width*px/2;
@@ -25,7 +25,7 @@ export default function Map({points=null,map}) {
                 ctx.fillText(e.shelfFloor+"층", (e.positionX+1)*px, e.positionY*py+10+fontSize);
                 ctx.fillText("n권", (e.positionX+1)*px, e.positionY*py+10+fontSize*2);
             } else {
-                ctx.fillStyle = "#888";
+                ctx.fillStyle = "#ccc";
                 ctx.fillRect(e.positionX*px, e.positionY*py, e.width*px, e.height*py);
             }
         });
@@ -48,7 +48,7 @@ export default function Map({points=null,map}) {
         <canvas className="map" ref={mapRef}/>
         <style jsx>{`
                 .map {
-                    border: 1px solid black;
+                    border: 2px solid #2F4858;
                     margin: 10px 0px;
                 }
         `}</style>

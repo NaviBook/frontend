@@ -8,7 +8,7 @@ export default function LogInBtn() {
         </Link>
         <style jsx>{`
             .container {
-            height: 60px;
+            height: 40px;
             display: flex;
             flex-direction: row-reverse;
             align-items: center;
@@ -17,9 +17,11 @@ export default function LogInBtn() {
             
             a {
             text-decoration: none;
-            color: black;
-            border: 1px solid black;
-            padding: 5px 10px;
+            color: red;
+            font-weight: 600;
+            padding: 3px 10px;
+            background-color: white;
+            border-radius: 15px;
             }
         `}</style>
     </div>

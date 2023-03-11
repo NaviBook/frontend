@@ -41,12 +41,8 @@ export default function Mainmap({points,map,initfloor="1F"}) {
                     background-color: #ccc;
                     font-weight: bold;
                 }
-                .map {
-                    border: 1px solid black;
-                    margin: 10px 0px;
-                }
                 .floor>div.active{
-                    background-color: skyblue;
+                    background-color: #2F4858;
                     color: white;
                 }
             `}</style>

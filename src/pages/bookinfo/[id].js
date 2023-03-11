@@ -4,7 +4,7 @@ import {getAPI} from "@/utils/fetch";
 import Link from "next/link";
 import MapContainer from "@/components/MapContainer";
 
-export default function Detail({bookInfoId, map, points}) {
+export default function Detail({bookInfoId, bookName, map, points}) {
   return (
     <div>
         <LogInBtn />
@@ -15,6 +15,7 @@ export default function Detail({bookInfoId, map, points}) {
         </div>
         <SearchBar/>
         <h1>Detail {bookInfoId}</h1>
+        <h1>{bookName}</h1>
         <MapContainer map={map} points={points} initfloor={points[0].libraryFloor}/>
         <style jsx>{`
             .title {

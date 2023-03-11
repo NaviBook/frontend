@@ -6,28 +6,48 @@ import {getAPI} from "@/utils/fetch";
 
 export default function Home({map}) {
   return (
-    <>
-        <div className="btn">
-            <LogInBtn />
-            <ManagerBtn />
+    <div className="container">
+        <div className="header">   
+            <h3>NAVIBOOK</h3>
+            <div className="btn">
+                <ManagerBtn />
+            </div>
         </div>
-        <div>
+        <div className="contents">
             <h1>NAVIBOOK</h1>
             <SearchBar />
         </div>
         <Mainmap map={map}/>
         <style jsx>{`
+            .container {
+                width: 100%;
+            }
+            .header {
+                background-color: red;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height: 40px;
+            }
+            .header > h3 {
+                padding-left: 20px;
+                color: white;
+            }
             .btn {
                 display: flex;
-                flex-direction: row-reverse;
+                padding-right: 20px;
+            }
+            .contents {
+                padding-top: 60px;
             }
             h1 {
                 display: flex;
                 justify-content: center;
                 margin-bottom: 10px;
+                color: #2F4858;
             }
         `}</style>
-    </>
+    </div>
   );
 }
 
