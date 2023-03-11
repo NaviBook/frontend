@@ -23,7 +23,6 @@ const SearchBar = ({selectLink="/bookinfo", response}) => {
     useEffect(() => {
         const getRecommend = async () => {
             let response = await getAPI(`/api/bookinfo/random/4`);
-            
             if (response.status === 200) {
                 setRecommend(response.data.map(e=>e.bookName));
             }
