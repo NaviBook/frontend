@@ -16,6 +16,7 @@ function bookManage({bookInfo, result}) {
     };
     
     const clickSave = () => {
+        console.log(id);
         id.map(e => {
             axios.post("/api/book/add", {
                 bookId: Number(e),

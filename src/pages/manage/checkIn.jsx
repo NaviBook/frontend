@@ -4,7 +4,7 @@ import { getAPI, postAPI } from '@/utils/fetch';
 import axios from "axios";
 import { Router, useRouter } from 'next/router';
 
-export default function checkIn({}) {
+export default function checkIn() {
     const router = useRouter();
     const userInput = useRef();
     const bookInput = useRef();
