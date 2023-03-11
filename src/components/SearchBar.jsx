@@ -2,7 +2,7 @@ import {useState,useEffect,useRef} from 'react';
 import SearchResult from './SearchResult';
 import {getAPI, postAPI} from '@/utils/fetch';
 
-const SearchBar = ({selectLink="/bookinfo"}) => {
+const SearchBar = ({selectLink="/bookinfo", response}) => {
     const inputRef = useRef(null);
     let [result, setResult] = useState([]);
     const search = async () => {
