@@ -14,12 +14,12 @@ export default function Detail({bookInfo, map, points}) {
                 <ManagerBtn />
             </div>
         </div>
-        <div className="title">
+        <div className="contents">
             <Link href="/" legacyBehavior>
-                <a><h3>NAVIBOOK</h3></a>
+                <a><h1>NAVIBOOK</h1></a>
             </Link>
+            <SearchBar />
         </div>
-        <SearchBar/>
         <h1>{bookInfo.bookName} {bookInfo.writer}</h1>
         <MapContainer map={map} points={points} initfloor={points[0].libraryFloor}/>
         <style jsx>{`
@@ -38,17 +38,16 @@ export default function Detail({bookInfo, map, points}) {
                 display: flex;
                 padding-right: 20px;
             }
-            .title {
+            .contents {
                 display: flex;
+                flex-direction: column;
                 justify-content: center;
+                align-items: center;
+                padding-top: 60px;
             }     
             a {
                 text-decoration: none;
                 color: black;
-            }
-            h3 {
-                width: 200px;
-                margin: 5px 0px;
             }
             h1 {
                 color: #2F4858;

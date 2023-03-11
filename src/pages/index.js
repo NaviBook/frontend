@@ -3,6 +3,7 @@ import ManagerBtn from "@/components/ManagerBtn";
 import SearchBar from "@/components/SearchBar";
 import Mainmap from "@/components/MapContainer";
 import {getAPI} from "@/utils/fetch";
+import Link from "next/link";
 
 export default function Home({map}) {
   return (
@@ -14,7 +15,9 @@ export default function Home({map}) {
             </div>
         </div>
         <div className="contents">
-            <h1>NAVIBOOK</h1>
+            <Link href="/" legacyBehavior>
+                <a><h1>NAVIBOOK</h1></a>
+            </Link>
             <SearchBar />
         </div>
         <Mainmap map={map}/>
@@ -38,13 +41,20 @@ export default function Home({map}) {
                 padding-right: 20px;
             }
             .contents {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
                 padding-top: 60px;
-            }
+            }   
             h1 {
                 display: flex;
                 justify-content: center;
                 margin-bottom: 10px;
                 color: #2F4858;
+            }
+            a {
+                text-decoration: none;
             }
         `}</style>
     </div>
