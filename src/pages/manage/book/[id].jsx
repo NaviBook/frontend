@@ -62,7 +62,7 @@ export const getServerSideProps = async (context) => {
     return {
         props: {
             bookInfo: context.params.id,
-            result: await(await getAPI("http://15.165.230.7:8080/api/book/"+context.params.id))
+            result: await(await getAPI("http://3.36.126.180:8080/api/book/"+context.params.id))
             .data
             [0].bookInfo,
         },
