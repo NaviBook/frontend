@@ -1,4 +1,4 @@
-import MainBox from "@/components/mainbox";
+import MainBox from "@/components/MainBox";
 import Link from "next/link";
 
 export default function manager() {
