@@ -15,6 +15,7 @@ export default function Map({points=null,map}) {
         let px = canvas.width/120;
         let py = canvas.height/90;
         ctx.fillStyle = "#888";
+        console.log(map,points);
         map.forEach(e=>{
             if(points?.map(e=>e.bookShelfId).includes(e.id)) {
                 ctx.fillStyle = "#AD7D5A";
@@ -22,8 +23,8 @@ export default function Map({points=null,map}) {
                 ctx.fillStyle = "#fff";
                 let fontSize = e.width*px/2;
                 ctx.font = `${fontSize}px Noto Sans`;
-                ctx.fillText(e.shelfFloor+"층", (e.positionX+1)*px, e.positionY*py+10+fontSize);
-                ctx.fillText("n권", (e.positionX+1)*px, e.positionY*py+10+fontSize*2);
+                ctx.fillText(points.filter(f=>f.bookShelfId==e.id)[0].selfFloor+"층", (e.positionX+1)*px, e.positionY*py+10+fontSize);
+                ctx.fillText(points.filter(f=>f.bookShelfId==e.id).length + "권", (e.positionX+1)*px, e.positionY*py+10+fontSize*2);
             } else {
                 ctx.fillStyle = "#ccc";
                 ctx.fillRect(e.positionX*px, e.positionY*py, e.width*px, e.height*py);

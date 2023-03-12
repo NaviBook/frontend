@@ -21,7 +21,7 @@ export default function Detail({bookInfo, map, points}) {
             <SearchBar />
         </div>
         <h1>{bookInfo.bookName} {bookInfo.writer}</h1>
-        <MapContainer map={map} points={points} initfloor={points[0].libraryFloor}/>
+        <MapContainer map={map} points={points} initfloor={points[0]?.libraryFloor}/>
         <style jsx>{`
             .header {
                 background-color: red;
