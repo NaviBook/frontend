@@ -6,8 +6,12 @@ const MainBox = ({title, subtitle, url}) => {
         <div className="container">
             <h1 className="title">{title}</h1>
             <div className="subtitle">
-                <Link href={`${url[0]}`} legacyBehavior>{subtitle[0]}</Link>
-                <Link href={`${url[1]}`}>{subtitle[1]}</Link>
+                <Link href={`${url[0]}`} legacyBehavior>
+                    <a><h3> {subtitle[0]}</h3></a>
+                </Link>
+                <Link href={`${url[1]}`} legacyBehavior>
+                    <a><h3> {subtitle[1]}</h3></a>
+                </Link>
             </div>
             <style jsx>{`
                 .container {
@@ -22,8 +26,17 @@ const MainBox = ({title, subtitle, url}) => {
                     padding: 5px 0px;
                 }
                 a {
-                    background-color: blue;
                     text-decoration: none;
+                    color: red;
+                    padding: 0px;
+                    margin: 0px;
+                }
+                h3 {
+                    padding: 0px;
+                    margin: 10px 0px;
+                }
+                a:hover {
+                    color: #2F4858;
                 }
                
             `}</style>

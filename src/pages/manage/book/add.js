@@ -7,7 +7,7 @@ export default function addBook() {
 
     return(
         <div>
-            <RedTitle title="새로운 도서 관리하기"/>
+            <h1>새로운 도서 관리하기</h1>
             <div className="contents">
                 <div className="box">
                     <div className="main">
@@ -66,6 +66,7 @@ export default function addBook() {
                     height: 95%;
                     z-index: -10;
                 }
+                
             `}</style>
         </div>
         

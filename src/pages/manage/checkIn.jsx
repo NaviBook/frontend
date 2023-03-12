@@ -48,30 +48,87 @@ export default function checkIn() {
 
     return(
         <div>
-            <RedTitle title="대출하기"/>
-            <div>
-                <span>유저 ID</span>
-                <input ref={userInput}></input>
-                <button onClick={selectUser}>선택하기</button>
+            <h1>대출하기</h1>
+            <div className="container">
+                <div onClick={()=> router.replace("/manage")} className="back"> X </div>
+                <div className="inputID">
+                    <div>
+                        <span>유저 ID</span>
+                        <input ref={userInput}></input>
+                        <button onClick={selectUser}>선택하기</button>
+                    </div>
+                    <div>
+                        <span>책 ID</span>
+                        <input ref={bookInput}></input>
+                        <button onClick={selectBook}>선택하기</button>
+                    </div>
+                    <button onClick={showUser} className="savebtn">저장하기</button>
+                </div>
+                <div>
+                    <h3>회원 정보</h3>
+                    <div>회원이름: {user.name}</div>
+                    <div>전화번호: {user.phone}</div>
+                </div>
+                <div>
+                    <h3>대출 현황</h3>
+                    {book.map((book, id) => {
+                        return <div key={id}>{id+1} {book.bookName} {book.writer} </div>
+                    })}
+                </div>
+                <button onClick={checkIn} className="borrow">대출하기</button>
             </div>
-            <div>
-                <span>책 ID</span>
-                <input ref={bookInput}></input>
-                <button onClick={selectBook}>선택하기</button>
-            </div>
-            <button onClick={showUser}>왜 안돼?</button>
-            <div>
-                <h3>회원 정보</h3>
-                <div>회원이름: {user.name}</div>
-                <div>전화번호: {user.phone}</div>
-            </div>
-            <div>
-                <h3>대출 현황</h3>
-                {book.map((book, id) => {
-                    return <div key={id}>{id+1} {book.bookName} {book.writer} </div>
-                })}
-            </div>
-            <button onClick={checkIn}>대출하기</button>
+            <style jsx>{`
+                .back {
+                    display: flex;
+                    flex-direction: row-reverse;
+                    font-weight: 800;
+                    cursor: pointer;
+                    width: 100%;
+                    margin: 10px auto;
+                    margin-left: -10px;
+                }
+                .container {
+                    display: flex;
+                    flex-direction: column;
+                    margin: 0px auto;
+                    padding-left: 20px;
+                    border: 3px solid red;
+                    width: 90%;
+                    
+                }
+                input {
+                    height: 20px;
+                    border: 2px solid #2F4858;
+                    margin: 5px 10px;
+                }
+                span {
+                    font-weight: 600;
+                    font-size: 18px;
+                }
+                button {
+                    background-color: #2F4858;
+                    color: white;
+                    font-size: 16px;
+                    margin-right: 20px;
+                }
+                .savebtn{
+                    background-color: gray;
+                    color: white;
+                    font-size: 14px;
+                    width: 70px;
+                    height: 25px;
+                }
+                .inputID {
+                    padding: 10px 0px;
+                    display: flex;
+                    align-items: center;
+                }
+                .borrow {
+                    background-color: #2F4858;
+                    width: 50%;
+                    margin: 10px auto;
+                }
+            `}</style>
         </div>
     );
 }

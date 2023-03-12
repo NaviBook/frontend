@@ -13,6 +13,11 @@ function Pagination({ total, limit, page, setPage}) {
                 </button>
             ))}
             <button onClick={() => setPage(page + 1)} disabled={page === pageNum}>&gt;</button>
+            <style jsx>{`
+                button {
+                    margin: 2px;
+                }
+            `}</style>
         </div>
     )
 

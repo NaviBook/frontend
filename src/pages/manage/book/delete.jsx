@@ -1,5 +1,5 @@
 import RedTitle from "@/components/RedTitle";
-import AddBook from "@/components/AddBook";
+import DeleteBook from "@/components/DeleteBook";
 import { useRouter } from 'next/router';
 
 export default function addBook() {
@@ -7,7 +7,7 @@ export default function addBook() {
 
     return(
         <div>
-            <RedTitle title="기존 도서 관리하기"/>
+            <h1>기존 도서 관리하기</h1>
             <div className="contents">
                 <div className="box">
                     <div className="main">
@@ -17,7 +17,7 @@ export default function addBook() {
                         </div>
                         <div className="contents">
                             <div>
-                                <AddBook />
+                                <DeleteBook />
                             </div>
                         </div>
                     </div>

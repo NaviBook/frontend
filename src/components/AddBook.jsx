@@ -52,11 +52,17 @@ export default function AddBook() {
                 }
                 input {
                     width: 30vw;
-                    margin-left: 10px;
+                    height: 20px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    border: 2px solid #2F4858;
+                    margin: 5px 10px;
                 }
                 button {
-                    background-color: black;
+                    background-color: #2F4858;
                     color: white;
+                    margin-right: 10px;
                 }
             `}</style>
         </div>
